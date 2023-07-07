@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  node:
+    build: ./
+    container_name: app-registration
+    image: node:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/usr/src/app
+    networks:
+      - registration
+
+  database:
+    image: postgres
+    container_name: database
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: codigoaberto
+      POSTGRES_DB: registration
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - registration
+
+networks:
+  registration:
+    driver: bridge
